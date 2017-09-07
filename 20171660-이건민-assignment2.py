@@ -1,3 +1,7 @@
+''' 20171660
+    이건민 
+    Factorial'''
+
 num = int(input("숫자를 입력하세요 : "))
 sum = 1
 
