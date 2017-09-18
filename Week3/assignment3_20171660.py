@@ -38,7 +38,7 @@ def doScoreDB(scdb_total):
 		
 		if parse[0] == 'add':
 			try:                           #미입력시 예외 처리
-				record = {'Name':parse[1], 'Age':parse[2], 'Score':parse[3]}
+				record = {'Name' :parse[1], 'Age': (parse[2]), 'Score': (parse[3])} #나이와 점수를 int로
 				scdb_total += [record]
 			except IndexError:
 				print("이름과 나이, 점수를 입력하세요")
@@ -65,9 +65,10 @@ def doScoreDB(scdb_total):
 							else:               #나이, 점수는 정수로 받음
 								print(k + '+' + v, end=' ')
 								print()
+						break				# 모든정보를 입력받은 후 종료	
+					else:
+						print("없음")  #이름이 없다면		
 						break
-				else:
-					print("없음")  #이름이 없다면
 			except IndexError:
 				print("이름을 입력하세요")		
 				
