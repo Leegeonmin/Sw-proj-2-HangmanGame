@@ -3,7 +3,7 @@
     Factorial'''
 
 num = int(input("숫자를 입력하세요 : "))   # 숫자 입력받음
-                                    # 조건문에서의 곱을 위해 1을 저장
+
 
 
 while True:
@@ -13,3 +13,8 @@ while True:
 
     if not num == -1:                          #-1을 예외로 두고 프린트
         print(" %d! = %d" %(num,sum))
+        num = int(input("숫자를 입력하세요 : "))
+
+    if num == -1:
+        print("Do not enter -1")
+        break
