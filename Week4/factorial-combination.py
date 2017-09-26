@@ -1,15 +1,15 @@
 #20171660 이건민
 
-
-def factorial(p):        # 1씩 줄어들면서 곱하는 재귀함수를 만든
+# 1씩 줄어들면서 곱하는 재귀함수를 만든다
+def factorial(p):
     sum = 1
     while p > 0:
         sum *= p
         p -= 1
     return sum
 
-
-def factorial_combination(n, k):    #factorial 공식을 이용한 함수를 만든디
+#factorial 공식을 이용한 함수를 만든다
+def factorial_combination(n, k):
     if not type(n or k) == int:
         print("Enter integer")
         n = int(input("Enter n:"))
@@ -21,7 +21,8 @@ def factorial_combination(n, k):    #factorial 공식을 이용한 함수를 만
         denominator1 = factorial(k)
         denominator2 = factorial(n-k)
 
-        return numerator/(denominator1*denominator2)
+        return numerator / (denominator1 * denominator2)
 
-d = factorial_combination("a",2)
-print(d)
+if __name__ == '__main__':
+    d = factorial_combination("a",2)
+    print(d)
