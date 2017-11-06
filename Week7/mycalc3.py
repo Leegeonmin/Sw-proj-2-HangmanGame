@@ -18,6 +18,29 @@ class Button(QToolButton):
         size.setWidth(max(size.width(), size.height()))
         return size
 
+class Function_Button_Left(QToolButton):
+    def __init__(self, text):
+        super().__init__()
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.setText(text)
+
+    def sizeHint(self):
+        size = super(Function_Button_Left, self).sizeHint()
+        size.setHeight(size.height() + 40 )
+        size.setWidth(max(size.width(), size.height()))
+        return size
+
+class Function_Button_Right(QToolButton):
+    def __init__(self, text):
+        super().__init__()
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.setText(text)
+
+    def sizeHint(self):
+        size = super(Function_Button_Right, self).sizeHint()
+        size.setHeight(size.height() + 30 )
+        size.setWidth(max(size.width(), size.height()))
+        return size
 
 class Calculator(QWidget):
     
@@ -33,16 +56,10 @@ class Calculator(QWidget):
         # Digit Buttons
         self.digitButton = [x for x in range(0, 10)]
 
-        self.digitButton[0] = Button('0')
-        self.digitButton[1] = Button('1')
-        self.digitButton[2] = Button('2')
-        self.digitButton[3] = Button('3')
-        self.digitButton[4] = Button('4')
-        self.digitButton[5] = Button('5')
-        self.digitButton[6] = Button('6')
-        self.digitButton[7] = Button('7')
-        self.digitButton[8] = Button('8')
-        self.digitButton[9] = Button('9')
+        # make for loop ################################################
+        for num in range(10):
+            self.digitButton[num] = Button('%d' %(num))
+        ################################################################
         
         # . and = Buttons
         self.decButton = Button('.')
@@ -61,6 +78,20 @@ class Calculator(QWidget):
         # Clear Button
         self.clearButton = Button('C')
 
+        ############################################################################################
+        # Function Button - Left
+        self.piButton = Function_Button_Left('pi')
+        self.lightspeedButton = Function_Button_Left('빛의 이동 속도 (m/s)')
+        self.soundspeedButton = Function_Button_Left('소리의 이동 속도 (m/s')
+        self.sundistanceButton = Function_Button_Left('태양과의 평군 거리 (km)')
+
+        # Function Button - Right
+        self.factoriButton = Function_Button_Right('factorial (!)')
+        self.binaryButton = Function_Button_Right('-> binary')
+        self.binaryconvertdecButton = Function_Button_Right('binary -> dec')
+        self.romanButton = Function_Button_Right('-> roman')
+        self.romanconvertdecButton = Function_Button_Right('roman -> dec')
+        ############################################################################################
         # Layout
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
@@ -69,17 +100,17 @@ class Calculator(QWidget):
 
         numLayout = QGridLayout()
 
-        numLayout.addWidget(self.digitButton[0], 3, 0)
-        numLayout.addWidget(self.digitButton[1], 2, 0)
-        numLayout.addWidget(self.digitButton[2], 2, 1)
-        numLayout.addWidget(self.digitButton[3], 2, 2)
-        numLayout.addWidget(self.digitButton[4], 1, 0)
-        numLayout.addWidget(self.digitButton[5], 1, 1)
-        numLayout.addWidget(self.digitButton[6], 1, 2)
-        numLayout.addWidget(self.digitButton[7], 0, 0)
-        numLayout.addWidget(self.digitButton[8], 0, 1)
-        numLayout.addWidget(self.digitButton[9], 0, 2)
-
+        # make for loop ###########################################################
+        num = 0
+        for i in range(3, -1, -1):
+            if i == 3:
+                numLayout.addWidget(self.digitButton[num], i, 0)
+                num += 1
+            else:
+                for j in range(0, 3):
+                    numLayout.addWidget(self.digitButton[num], i ,j)
+                    num += 1
+        ############################################################################
         numLayout.addWidget(self.decButton, 3, 1)
         numLayout.addWidget(self.eqButton, 3, 2)
 
@@ -98,6 +129,29 @@ class Calculator(QWidget):
         opLayout.addWidget(self.clearButton, 3, 0)
         
         mainLayout.addLayout(opLayout, 1, 1)
+
+        ##############################################################################################
+        #Layout
+
+        funcleftLayout = QGridLayout()
+
+        funcleftLayout.addWidget(self.piButton , 0, 0)
+        funcleftLayout.addWidget(self.lightspeedButton, 1, 0)
+        funcleftLayout.addWidget(self.soundspeedButton, 2, 0)
+        funcleftLayout.addWidget(self.sundistanceButton, 3, 0)
+        mainLayout.addLayout(funcleftLayout, 2, 0)
+
+        funcrightLayout = QGridLayout()
+
+        funcrightLayout.addWidget(self.factoriButton, 0, 0)
+        funcrightLayout.addWidget(self.binaryButton, 1, 0)
+        funcrightLayout.addWidget(self.binaryconvertdecButton, 2, 0)
+        funcrightLayout.addWidget(self.romanButton, 3, 0)
+        funcrightLayout.addWidget(self.romanconvertdecButton, 4, 0)
+
+        mainLayout.addLayout(funcrightLayout, 2, 1)
+
+        ##############################################################################################
 
         self.setLayout(mainLayout)
         
