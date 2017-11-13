@@ -7,37 +7,27 @@ from PyQt5.QtWidgets import QLayout, QGridLayout
 
 class Button(QToolButton):
 
-    def __init__(self, text):
+    def __init__(self, text, callback):
         super().__init__()
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.setText(text)
+        self.clicked.connect(callback)
 
     def sizeHint(self):
         size = super(Button, self).sizeHint()
         size.setHeight(size.height() + 20)
         size.setWidth(max(size.width(), size.height()))
-        return size
+        return size	
 
-class Function_Button_Left(QToolButton):
-    def __init__(self, text):
+class Function_Button(QToolButton):
+    def __init__(self, text, callback):
         super().__init__()
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.setText(text)
+        self.clicked.connect(callback)  
 
     def sizeHint(self):
-        size = super(Function_Button_Left, self).sizeHint()
-        size.setHeight(size.height() + 40 )
-        size.setWidth(max(size.width(), size.height()))
-        return size
-
-class Function_Button_Right(QToolButton):
-    def __init__(self, text):
-        super().__init__()
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        self.setText(text)
-
-    def sizeHint(self):
-        size = super(Function_Button_Right, self).sizeHint()
+        size = super(Function_Button, self).sizeHint()
         size.setHeight(size.height() + 30 )
         size.setWidth(max(size.width(), size.height()))
         return size
@@ -58,39 +48,39 @@ class Calculator(QWidget):
 
         # make for loop ################################################
         for num in range(10):
-            self.digitButton[num] = Button('%d' %(num))
+            self.digitButton[num] = Button(str(num), self.buttonClicked)
         ################################################################
         
         # . and = Buttons
-        self.decButton = Button('.')
-        self.eqButton = Button('=')
+        self.decButton = Button('.', self.buttonClicked)
+        self.eqButton = Button('=', self.buttonClicked)
 
         # Operator Buttons
-        self.mulButton = Button('*')
-        self.divButton = Button('/')
-        self.addButton = Button('+')
-        self.subButton = Button('-')
+        self.mulButton = Button('*', self.buttonClicked)
+        self.divButton = Button('/', self.buttonClicked)
+        self.addButton = Button('+', self.buttonClicked)
+        self.subButton = Button('-', self.buttonClicked)
 
         # Parentheses Buttons
-        self.lparButton = Button('(')
-        self.rparButton = Button(')')
+        self.lparButton = Button('(', self.buttonClicked)
+        self.rparButton = Button(')', self.buttonClicked)
 
         # Clear Button
-        self.clearButton = Button('C')
+        self.clearButton = Button('C', self.buttonClicked)
 
         ############################################################################################
         # Function Button - Left
-        self.piButton = Function_Button_Left('pi')
-        self.lightspeedButton = Function_Button_Left('빛의 이동 속도 (m/s)')
-        self.soundspeedButton = Function_Button_Left('소리의 이동 속도 (m/s')
-        self.sundistanceButton = Function_Button_Left('태양과의 평군 거리 (km)')
+        self.piButton = Function_Button('pi', self.buttonClicked)
+        self.lightspeedButton = Function_Button('빛의 이동 속도 (m/s)', self.buttonClicked)
+        self.soundspeedButton = Function_Button('소리의 이동 속도 (m/s', self.buttonClicked)
+        self.sundistanceButton = Function_Button('태양과의 평군 거리 (km)', self.buttonClicked)
 
         # Function Button - Right
-        self.factoriButton = Function_Button_Right('factorial (!)')
-        self.binaryButton = Function_Button_Right('-> binary')
-        self.binaryconvertdecButton = Function_Button_Right('binary -> dec')
-        self.romanButton = Function_Button_Right('-> roman')
-        self.romanconvertdecButton = Function_Button_Right('roman -> dec')
+        self.factoriButton = Function_Button('factorial (!)', self.buttonClicked)
+        self.binaryButton = Function_Button('-> binary', self.buttonClicked)
+        self.binaryconvertdecButton = Function_Button('binary -> dec', self.buttonClicked)
+        self.romanButton = Function_Button('-> roman', self.buttonClicked)
+        
         ############################################################################################
         # Layout
         mainLayout = QGridLayout()
@@ -147,7 +137,7 @@ class Calculator(QWidget):
         funcrightLayout.addWidget(self.binaryButton, 1, 0)
         funcrightLayout.addWidget(self.binaryconvertdecButton, 2, 0)
         funcrightLayout.addWidget(self.romanButton, 3, 0)
-        funcrightLayout.addWidget(self.romanconvertdecButton, 4, 0)
+        
 
         mainLayout.addLayout(funcrightLayout, 2, 1)
 
@@ -157,7 +147,16 @@ class Calculator(QWidget):
         
         self.setWindowTitle("My Calculator")
 
-
+    def buttonClicked(self):
+        button = self.sender()
+        key = button.text()
+        if key == '=':
+            result = str(eval(self.display.text()))
+            self.display.setText(result)
+        elif key == 'C':
+            self.display.setText('')
+        else:
+            self.display.setText(self.display.text() + key)
 if __name__ == '__main__':
 
     import sys
