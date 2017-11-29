@@ -16,8 +16,12 @@ def gameMain():
         display = hangman.get(maxTries - guess.numTries)
         print(display)
         guess.display()
-
+        
         guessedChar = input('Select a letter: ')
+        ## 입력이 영어 인경우만 처리 하기 위해
+        if guessedChar.isalpha() != 1:
+            print('Enter alphabet')
+            continue
         if len(guessedChar) != 1:
             ## 만약 사용자가 문자대신 단어를 입력해서 맞으면 success
             if guessedChar == guess.secretWord:
